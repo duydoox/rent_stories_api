@@ -10,8 +10,8 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async insertUser(userName: string, passWord: string): Promise<void> {
-    await this.userRepository.insert({ userName, passWord, position: 'STAFF' });
+  async insertUser(user: User): Promise<void> {
+    await this.userRepository.insert(user);
   }
 
   findByUsername(userName: string): Promise<User | null> {

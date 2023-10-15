@@ -7,6 +7,8 @@ import { Shop } from './entities/shop.entity';
 import { User } from './entities/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { ComicBook } from './entities/comicBook.entity';
+import { Book } from './entities/book.entity';
 
 @Module({
   imports: [
@@ -17,7 +19,7 @@ import { UserModule } from './user/user.module';
       username: 'root',
       password: 'duyduyduy',
       database: 'rentstories',
-      entities: [Shop, User],
+      entities: [Shop, User, Book, ComicBook],
       synchronize: true,
     }),
     AuthModule,

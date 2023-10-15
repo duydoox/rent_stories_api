@@ -3,6 +3,7 @@ import { LoginDTO, RegisterDTO } from './dto';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as argon from 'argon2';
+import { User } from 'src/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +15,11 @@ export class AuthService {
   async register(registerDTO: RegisterDTO) {
     const hashedPassword = await argon.hash(registerDTO.password);
     try {
-      await this.userSevice.insertUser(registerDTO.username, hashedPassword);
+      const user = new User();
+      user.userName = registerDTO.username;
+      user.passWord = hashedPassword;
+      user.position = 'STAFF';
+      await this.userSevice.insertUser(user);
       return {
         message: 'Đăng ký tài khoản thành công',
       };

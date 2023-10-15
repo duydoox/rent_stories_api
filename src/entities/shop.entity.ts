@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { User } from './user.entity';
+import { ComicBook } from './comicBook.entity';
 
 @Entity()
 export class Shop {
@@ -13,4 +15,10 @@ export class Shop {
 
   @Column()
   quantity: string;
+
+  @OneToMany(() => User, (user) => user.shop)
+  users: User[];
+
+  @OneToMany(() => ComicBook, (comicBook) => comicBook.shop)
+  comicBooks: ComicBook[];
 }
