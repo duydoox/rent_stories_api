@@ -3,16 +3,16 @@ import { AppModule } from './app.module';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 
 class App {
-  public app: INestApplication<any>;
+  private app: INestApplication<any>;
 
   constructor() {
     this.bootstrap();
   }
 
   private async bootstrap() {
-    const app = await NestFactory.create(AppModule, { abortOnError: false });
-    app.useGlobalPipes(new ValidationPipe());
-    await app.listen(3000);
+    this.app = await NestFactory.create(AppModule, { abortOnError: false });
+    this.app.useGlobalPipes(new ValidationPipe());
+    await this.app.listen(3000);
   }
 }
 new App();
