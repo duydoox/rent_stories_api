@@ -1,35 +1,35 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Shop } from './shop.entity';
+import { CuaHang } from './CuaHang.entity';
 
 @Entity()
-export class User {
+export class NhanVien {
   @PrimaryGeneratedColumn()
-  ID: number;
+  maNhanVien: string;
 
   @Column({ unique: true })
-  userName: string;
+  username: string;
 
   @Column()
-  passWord: string;
+  password: string;
 
   @Column()
-  position: string;
+  viTri: string;
 
   @Column({ nullable: true })
-  fullName: string;
+  tenNhanVien: string;
 
   @Column({ nullable: true })
-  phone: string;
+  soDienThoai: string;
 
   @Column({ nullable: true })
-  address: string;
+  diaChi: string;
 
   @Column({ nullable: true })
-  dayOfBirth: Date;
+  ngaySinh: Date;
 
   @Column({ nullable: true })
-  gender: string;
+  gioiTinh: string;
 
-  @ManyToOne(() => Shop, (shop) => shop.users)
-  shop: Shop;
+  @ManyToOne(() => CuaHang, (cuaHang) => cuaHang.nhanViens)
+  cuaHang: CuaHang;
 }

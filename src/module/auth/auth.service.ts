@@ -1,9 +1,9 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { LoginDTO, RegisterDTO } from './dto';
-import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as argon from 'argon2';
-import { User } from 'src/entities/user.entity';
+import { NhanVien } from 'src/entities';
+import { UserService } from '../nhanVien/user.service';
 
 @Injectable()
 export class AuthService {
@@ -15,11 +15,11 @@ export class AuthService {
   async register(registerDTO: RegisterDTO) {
     const hashedPassword = await argon.hash(registerDTO.password);
     try {
-      const user = new User();
-      user.userName = registerDTO.username;
-      user.passWord = hashedPassword;
-      user.position = 'STAFF';
-      await this.userSevice.insertUser(user);
+      const nhanVien = new NhanVien();
+      nhanVien.username = registerDTO.username;
+      nhanVien.password = hashedPassword;
+      nhanVien.viTri = 'NV';
+      await this.userSevice.insertUser(nhanVien);
       return {
         message: 'Đăng ký tài khoản thành công',
       };
@@ -29,18 +29,18 @@ export class AuthService {
   }
 
   async login(loginDTO: LoginDTO) {
-    const user = await this.userSevice.findByUsername(loginDTO.username);
-    if (!user) {
+    const nhanVien = await this.userSevice.findByUsername(loginDTO.username);
+    if (!nhanVien) {
       throw new ForbiddenException('Tài khoản hoặc mật khẩu không chính xác');
     }
     const passwordMatched = await argon.verify(
-      user?.passWord,
+      nhanVien?.password,
       loginDTO.password,
     );
     if (!passwordMatched) {
       throw new ForbiddenException('Tài khoản hoặc mật khẩu không chính xác');
     }
-    const payload = { sub: user.ID, username: user.userName };
+    const payload = { sub: nhanVien.maNhanVien, username: nhanVien.username };
     return {
       accessToken: await this.jwtSevice.signAsync(payload),
     };

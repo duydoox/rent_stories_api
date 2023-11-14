@@ -1,15 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HomeModule } from './home/home.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Shop } from './entities/shop.entity';
-import { User } from './entities/user.entity';
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import { ComicBook } from './entities/comicBook.entity';
-import { Book } from './entities/book.entity';
 import { ConfigModule } from '@nestjs/config';
+import { CuaHang, NhanVien, Truyen } from './entities';
+import { AuthGuard } from './module/auth/auth.gaurd';
+import { UserModule } from './module/nhanVien/user.module';
+import { AuthModule } from './module/auth/auth.module';
 
 @Module({
   imports: [
@@ -23,14 +20,19 @@ import { ConfigModule } from '@nestjs/config';
       username: 'root',
       password: 'duyduyduy',
       database: 'rentstories',
-      entities: [Shop, User, Book, ComicBook],
+      entities: [NhanVien, CuaHang, Truyen],
       synchronize: true,
     }),
     AuthModule,
-    HomeModule,
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: 'APP_GUARD',
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AppModule {}
