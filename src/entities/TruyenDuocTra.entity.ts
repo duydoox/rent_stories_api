@@ -1,6 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { HoaDon } from './HoaDon.entity';
-import { TruyenDuocThue } from './TruyenDuocThue';
+import { TruyenDuocThue } from '.';
 
 @Entity()
 export class TruyenDuocTra {
@@ -19,7 +26,11 @@ export class TruyenDuocTra {
   @Column('float')
   tienDaTra: number;
 
-  @ManyToOne(() => TruyenDuocThue)
+  @OneToOne(
+    () => TruyenDuocThue,
+    (truyenDuocThue) => truyenDuocThue.truyenDuocTra,
+  )
+  @JoinColumn()
   truyenDuocThue: TruyenDuocThue;
 
   @ManyToOne(() => HoaDon)

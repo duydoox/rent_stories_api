@@ -1,6 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToOne,
+} from 'typeorm';
 import { Truyen } from './Truyen.entity';
 import { PhieuThue } from './PhieuThue.entity';
+import { TruyenDuocTra } from './TruyenDuocTra.entity';
 
 @Entity()
 export class TruyenDuocThue {
@@ -21,4 +28,10 @@ export class TruyenDuocThue {
 
   @ManyToOne(() => PhieuThue)
   phieuThue: PhieuThue;
+
+  @OneToOne(
+    () => TruyenDuocTra,
+    (truyenDuocTra) => truyenDuocTra.truyenDuocThue,
+  )
+  truyenDuocTra: TruyenDuocTra;
 }

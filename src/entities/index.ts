@@ -5,5 +5,5 @@ export * from './NhanVien.entity';
 export * from './PhieuThue.entity';
 export * from './ThongKe.entity';
 export * from './Truyen.entity';
-export * from './TruyenDuocThue';
+export * from './TruyenDuocThue.entity';
 export * from './TruyenDuocTra.entity';
