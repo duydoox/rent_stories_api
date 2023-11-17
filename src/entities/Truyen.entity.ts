@@ -26,4 +26,8 @@ export class Truyen {
 
   @ManyToOne(() => CuaHang, (cuaHang) => cuaHang.truyens)
   cuaHang: CuaHang;
+
+  constructor(partial?: Partial<Truyen>) {
+    Object.assign(this, partial);
+  }
 }

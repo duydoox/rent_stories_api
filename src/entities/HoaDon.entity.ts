@@ -14,4 +14,8 @@ export class HoaDon {
 
   @ManyToOne(() => NhanVien)
   nhanVien: NhanVien;
+
+  constructor(partial?: Partial<HoaDon>) {
+    Object.assign(this, partial);
+  }
 }

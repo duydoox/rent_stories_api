@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as argon from 'argon2';
 import { NhanVien } from 'src/entities';
 import { UserService } from '../nhanVien/user.service';
+import { Response } from 'src/types';
 
 @Injectable()
 export class AuthService {
@@ -12,15 +13,19 @@ export class AuthService {
     private jwtSevice: JwtService,
   ) {}
 
-  async register(registerDTO: RegisterDTO) {
+  async register(registerDTO: RegisterDTO): Promise<Response<boolean> | null> {
     const hashedPassword = await argon.hash(registerDTO.password);
     try {
-      const nhanVien = new NhanVien();
-      nhanVien.username = registerDTO.username;
-      nhanVien.password = hashedPassword;
-      nhanVien.viTri = 'NV';
+      const nhanVien = new NhanVien({
+        username: registerDTO.username,
+        password: hashedPassword,
+        viTri: 'NV',
+      });
       await this.userSevice.insertUser(nhanVien);
       return {
+        data: null,
+        status: 200,
+        success: true,
         message: 'Đăng ký tài khoản thành công',
       };
     } catch (error) {
@@ -28,7 +33,9 @@ export class AuthService {
     }
   }
 
-  async login(loginDTO: LoginDTO) {
+  async login(
+    loginDTO: LoginDTO,
+  ): Promise<Response<{ accessToken: string }> | null> {
     const nhanVien = await this.userSevice.findByUsername(loginDTO.username);
     if (!nhanVien) {
       throw new ForbiddenException('Tài khoản hoặc mật khẩu không chính xác');
@@ -42,7 +49,11 @@ export class AuthService {
     }
     const payload = { sub: nhanVien.maNhanVien, username: nhanVien.username };
     return {
-      accessToken: await this.jwtSevice.signAsync(payload),
+      data: {
+        accessToken: await this.jwtSevice.signAsync(payload),
+      },
+      status: 200,
+      success: true,
     };
   }
 }

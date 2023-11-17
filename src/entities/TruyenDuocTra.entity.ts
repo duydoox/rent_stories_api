@@ -14,17 +14,17 @@ export class TruyenDuocTra {
   @PrimaryGeneratedColumn()
   maTruyenDuocTra: string;
 
-  @Column()
-  ngayTra: Date;
-
-  @Column('float', { default: 0 })
+  @Column('float', { nullable: true })
   tienPhat: number;
-
-  @Column({ nullable: true })
-  lyDoPhat: string;
 
   @Column('float')
   tienDaTra: number;
+
+  @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
+  ngayTra: Date;
+
+  @Column({ nullable: true })
+  lyDoPhat: string;
 
   @OneToOne(
     () => TruyenDuocThue,

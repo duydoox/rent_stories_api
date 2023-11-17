@@ -10,4 +10,8 @@ export class KhachHang {
 
   @Column()
   soDienThoai: string;
+
+  constructor(partial?: Partial<KhachHang>) {
+    Object.assign(this, partial);
+  }
 }

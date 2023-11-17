@@ -21,4 +21,8 @@ export class CuaHang {
 
   @OneToMany(() => Truyen, (truyen) => truyen.cuaHang)
   truyens: Truyen[];
+
+  constructor(partial?: Partial<CuaHang>) {
+    Object.assign(this, partial);
+  }
 }

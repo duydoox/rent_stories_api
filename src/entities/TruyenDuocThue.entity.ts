@@ -17,14 +17,14 @@ export class TruyenDuocThue {
   @Column('float')
   giaThue: number;
 
-  @Column({ default: new Date() })
+  @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
   ngayThue: Date;
 
-  @Column()
+  @Column('datetime', { nullable: true })
   ngayPhaiTra: Date;
 
   @ManyToOne(() => Truyen)
-  truyen: Date;
+  truyen: Truyen;
 
   @ManyToOne(() => PhieuThue)
   phieuThue: PhieuThue;
