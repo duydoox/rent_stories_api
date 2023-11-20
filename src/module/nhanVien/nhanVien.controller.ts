@@ -6,6 +6,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
+import { IInfo } from 'src/types';
 
 @Controller('nhanVien')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -14,6 +15,7 @@ export class NhanVienController {
 
   @Get('/layThongTin')
   layThongTin(@Request() request: any) {
-    return this.nhanVienService.layThongTin(request?.user?.sub);
+    const user = request?.user as IInfo;
+    return this.nhanVienService.layThongTin(user.sub);
   }
 }

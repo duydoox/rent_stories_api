@@ -17,6 +17,12 @@ import { AuthGuard } from './module/auth/auth.gaurd';
 import { UserModule } from './module/nhanVien/user.module';
 import { AuthModule } from './module/auth/auth.module';
 import { CuaHangModule } from './module/cuaHang/cuaHang.module';
+import { TruyenModule } from './module/truyen/truyen.module';
+import { KhachHangModule } from './module/khachHang/khachHang.module';
+import { TruyenDuocThueModule } from './module/truyenDuocThue/truyenDuocThue.module';
+import { PhieuThueModule } from './module/phieuThue/phieuThue.module';
+import { TruyenDuocTraModule } from './module/truyenDuocTra/truyenDuocTra.module';
+import { HoaDonModule } from './module/hoaDon/hoaDon.module';
 
 @Module({
   imports: [
@@ -45,6 +51,12 @@ import { CuaHangModule } from './module/cuaHang/cuaHang.module';
     AuthModule,
     UserModule,
     CuaHangModule,
+    TruyenModule,
+    KhachHangModule,
+    TruyenDuocThueModule,
+    PhieuThueModule,
+    TruyenDuocTraModule,
+    HoaDonModule,
   ],
   controllers: [AppController],
   providers: [

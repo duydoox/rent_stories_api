@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as argon from 'argon2';
 import { NhanVien } from 'src/entities';
 import { UserService } from '../nhanVien/user.service';
-import { Response } from 'src/types';
+import { IInfo, Response } from 'src/types';
 
 @Injectable()
 export class AuthService {
@@ -35,7 +35,7 @@ export class AuthService {
 
   async login(
     loginDTO: LoginDTO,
-  ): Promise<Response<{ accessToken: string }> | null> {
+  ): Promise<Response<{ accessToken: string; nhanVien: NhanVien }> | null> {
     const nhanVien = await this.userSevice.findByUsername(loginDTO.username);
     if (!nhanVien) {
       throw new ForbiddenException('Tài khoản hoặc mật khẩu không chính xác');
@@ -47,10 +47,14 @@ export class AuthService {
     if (!passwordMatched) {
       throw new ForbiddenException('Tài khoản hoặc mật khẩu không chính xác');
     }
-    const payload = { sub: nhanVien.maNhanVien, username: nhanVien.username };
+    const payload: IInfo = {
+      sub: nhanVien.maNhanVien,
+      username: nhanVien.username,
+    };
     return {
       data: {
         accessToken: await this.jwtSevice.signAsync(payload),
+        nhanVien: nhanVien,
       },
       status: 200,
       success: true,

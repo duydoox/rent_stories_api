@@ -4,7 +4,7 @@ import { CuaHang } from './CuaHang.entity';
 @Entity()
 export class Truyen {
   @PrimaryGeneratedColumn()
-  maTruyen: number;
+  maTruyen: string;
 
   @Column()
   tenTruyen: string;
