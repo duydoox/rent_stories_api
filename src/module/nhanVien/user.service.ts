@@ -11,8 +11,12 @@ export class UserService {
     private userRepository: Repository<NhanVien>,
   ) {}
 
+  getNhanVienRepo(maNhanVien: string) {
+    return this.userRepository.findOneBy({ maNhanVien });
+  }
+
   async insertUser(nhanVien: NhanVien): Promise<void> {
-    await this.userRepository.insert(nhanVien);
+    await this.userRepository.save(nhanVien);
   }
 
   findByUsername(username: string): Promise<NhanVien | null> {

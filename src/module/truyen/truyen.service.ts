@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Truyen } from 'src/entities';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { SuaTruyenDTO, ThemTruyenDTO } from './dto';
 import { Response } from 'src/types';
 
@@ -15,6 +15,18 @@ export class TruyenService {
     @InjectRepository(Truyen)
     private truyenRepository: Repository<Truyen>,
   ) {}
+
+  getTruyenRepo(maTruyen: string) {
+    return this.truyenRepository.findOneBy({ maTruyen });
+  }
+
+  getListTruyen(dsMaTruyen: string[]) {
+    return this.truyenRepository.find({
+      where: {
+        maTruyen: In(dsMaTruyen),
+      },
+    });
+  }
 
   async themTruyen(
     themTruyenDto: ThemTruyenDTO,
@@ -38,7 +50,7 @@ export class TruyenService {
   }
 
   async getTruyenByMa(maTruyen: string): Promise<Response<Truyen> | null> {
-    const cuaHang = await this.truyenRepository.findOneBy({ maTruyen });
+    const cuaHang = await this.getTruyenRepo(maTruyen);
     return {
       data: cuaHang,
       status: 200,

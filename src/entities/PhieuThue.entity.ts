@@ -1,6 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { KhachHang } from './KhachHang.entity';
 import { NhanVien } from './NhanVien.entity';
+import { TruyenDuocThue } from './TruyenDuocThue.entity';
 
 @Entity()
 export class PhieuThue {
@@ -8,11 +15,18 @@ export class PhieuThue {
   maPhieuThue: string;
 
   @Column({ nullable: true })
-  ghiChu: Date;
+  ghiChu: string;
 
-  @ManyToMany(() => KhachHang)
+  @ManyToOne(() => KhachHang)
   khachHang: KhachHang;
 
-  @ManyToMany(() => NhanVien)
+  @ManyToOne(() => NhanVien)
   nhanVien: NhanVien;
+
+  @OneToMany(
+    () => TruyenDuocThue,
+    (truyenDuocThue) => truyenDuocThue.phieuThue,
+    { cascade: true },
+  )
+  truyenDuocThue: TruyenDuocThue[];
 }

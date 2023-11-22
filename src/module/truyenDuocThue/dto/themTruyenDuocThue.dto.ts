@@ -1,12 +1,11 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class ThemTruyenDuocThueDTO {
-  @IsNotEmpty()
-  giaThue: number;
+  ngayThue: string;
 
   @IsNotEmpty()
-  ngayThue: Date;
+  ngayPhaiTra: string;
 
   @IsNotEmpty()
-  ngayPhaiTra: Date;
+  maTruyen: string;
 }

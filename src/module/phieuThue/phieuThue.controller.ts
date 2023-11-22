@@ -1,10 +1,9 @@
-import { Body, Controller, Post, Get, Param } from '@nestjs/common';
-import { Public } from 'src/decorator/public.decorator';
+import { Body, Controller, Post, Get, Param, Request } from '@nestjs/common';
 import { PhieuThueService } from './phieuThue.service';
 import { ThemPhieuThueDTO } from './dto';
+import { IInfo } from 'src/types';
 
 @Controller('phieuThue')
-@Public()
 export class PhieuThueController {
   constructor(private phieuThueService: PhieuThueService) {}
 
@@ -19,7 +18,8 @@ export class PhieuThueController {
   }
 
   @Post('/themPhieuThue')
-  login(@Body() body: ThemPhieuThueDTO) {
-    return this.phieuThueService.themPhieuThue(body);
+  login(@Body() body: ThemPhieuThueDTO, @Request() req: any) {
+    const user = req.user as IInfo;
+    return this.phieuThueService.themPhieuThue(body, user.sub);
   }
 }

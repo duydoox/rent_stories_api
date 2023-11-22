@@ -1,1 +1,1 @@
-export * from './themPhieuThue';
+export * from './themPhieuThue.dto';

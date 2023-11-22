@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { CuaHang } from './CuaHang.entity';
 import { Exclude } from 'class-transformer';
+import { IsDate } from 'class-validator';
 
 @Entity()
 export class NhanVien {
@@ -27,6 +28,7 @@ export class NhanVien {
   diaChi: string;
 
   @Column({ nullable: true })
+  @IsDate()
   ngaySinh: Date;
 
   @Column({ nullable: true })

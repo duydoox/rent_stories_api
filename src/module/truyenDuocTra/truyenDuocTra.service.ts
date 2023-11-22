@@ -16,10 +16,7 @@ export class TruyenDuocTraService {
     truyenDuocTraDto: ThemTruyenDuocTraDTO,
   ): Promise<Response<TruyenDuocTra[]> | null> {
     const truyenDuocTra = new TruyenDuocTra();
-    truyenDuocTra.lyDoPhat = truyenDuocTraDto?.lyDoPhat;
     truyenDuocTra.ngayTra = truyenDuocTraDto?.ngayTra;
-    truyenDuocTra.tienDaTra = truyenDuocTraDto?.tienDaTra;
-    truyenDuocTra.tienPhat = truyenDuocTraDto?.tienPhat;
     await this.TruyenDuocTraRepository.insert(truyenDuocTra);
     return {
       data: null,

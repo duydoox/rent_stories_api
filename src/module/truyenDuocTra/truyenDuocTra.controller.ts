@@ -1,10 +1,8 @@
 import { Body, Controller, Post, Get, Param } from '@nestjs/common';
-import { Public } from 'src/decorator/public.decorator';
 import { TruyenDuocTraService } from './truyenDuocTra.service';
 import { ThemTruyenDuocTraDTO } from './dto';
 
 @Controller('khachHang')
-@Public()
 export class TruyenDuocTraController {
   constructor(private truyenDuocTraService: TruyenDuocTraService) {}
 

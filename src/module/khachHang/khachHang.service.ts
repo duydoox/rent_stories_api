@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { KhachHang } from 'src/entities';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { ThemKhachHangDTO } from './dto';
 import { Response } from 'src/types';
 
@@ -12,20 +12,30 @@ export class KhachHangService {
     private khachHangRepository: Repository<KhachHang>,
   ) {}
 
+  getKhachHangRepo(maKhachHang: string) {
+    return this.khachHangRepository.findOneBy({ maKhachHang });
+  }
+
   async themKhachHang(
     khachHangDto: ThemKhachHangDTO,
-  ): Promise<Response<KhachHang[]> | null> {
+  ): Promise<Response<KhachHang> | null> {
     const khachHang = new KhachHang(khachHangDto);
-    await this.khachHangRepository.insert(khachHang);
+    const saved = await this.khachHangRepository.save(khachHang);
     return {
-      data: null,
+      data: saved,
       status: 200,
       success: true,
     };
   }
 
-  async getTatCaKhachHang(): Promise<Response<KhachHang[]> | null> {
-    const khachHangs = await this.khachHangRepository.find();
+  async getTatCaKhachHang(
+    keyword?: string,
+  ): Promise<Response<KhachHang[]> | null> {
+    const khachHangs = await this.khachHangRepository.find({
+      where: {
+        tenKhachHang: Like(`%${keyword ?? ''}%`),
+      },
+    });
     return {
       data: khachHangs,
       status: 200,
@@ -36,7 +46,7 @@ export class KhachHangService {
   async getKhachHangByMa(
     maKhachHang: string,
   ): Promise<Response<KhachHang> | null> {
-    const khachHang = await this.khachHangRepository.findOneBy({ maKhachHang });
+    const khachHang = await this.getKhachHangRepo(maKhachHang);
     return {
       data: khachHang,
       status: 200,

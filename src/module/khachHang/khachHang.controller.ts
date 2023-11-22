@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Param } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Query } from '@nestjs/common';
 import { Public } from 'src/decorator/public.decorator';
 import { KhachHangService } from './khachHang.service';
 import { ThemKhachHangDTO } from './dto';
@@ -9,12 +9,12 @@ export class KhachHangController {
   constructor(private khachHangService: KhachHangService) {}
 
   @Get()
-  layTatCaKhachHang() {
-    return this.khachHangService.getTatCaKhachHang();
+  layTatCaKhachHang(@Query('keyword') keyword?: string) {
+    return this.khachHangService.getTatCaKhachHang(keyword);
   }
 
   @Get('/:maKhachHang')
-  themCuaHang(@Param('maKhachHang') maKhachHang: string) {
+  themKhachHang(@Param('maKhachHang') maKhachHang: string) {
     return this.khachHangService.getKhachHangByMa(maKhachHang);
   }
 

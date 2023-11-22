@@ -1,16 +1,25 @@
-import { Body, Controller, Post, Get, Param } from '@nestjs/common';
-import { Public } from 'src/decorator/public.decorator';
+import { Body, Controller, Post, Get, Param, Query } from '@nestjs/common';
 import { TruyenDuocThueService } from './truyenDuocThue.service';
 import { ThemTruyenDuocThueDTO } from './dto';
 
 @Controller('truyenDuocThue')
-@Public()
 export class TruyenDuocThueController {
   constructor(private truyenDuocThueService: TruyenDuocThueService) {}
 
   @Get()
   layTatCaTruyenDuocThue() {
     return this.truyenDuocThueService.getTatCaTruyenDuocThue();
+  }
+
+  @Get('/danhSachThue')
+  getDanhSachThue(
+    @Query('maKhachHang') maKhachHang: string,
+    @Query('isUnpaid') isUnpaid?: boolean,
+  ) {
+    return this.truyenDuocThueService.getTruyenDuocThueTheoKhachHang(
+      maKhachHang,
+      isUnpaid,
+    );
   }
 
   @Get('/:maTruyenDuocThue')
@@ -21,5 +30,10 @@ export class TruyenDuocThueController {
   @Post('/themTruyenDuocThue')
   login(@Body() body: ThemTruyenDuocThueDTO) {
     return this.truyenDuocThueService.themTruyenDuocThue(body);
+  }
+
+  @Post('/tinhTien')
+  tinhTien(@Body() body: ThemTruyenDuocThueDTO) {
+    return this.truyenDuocThueService.tinhTien(body);
   }
 }
