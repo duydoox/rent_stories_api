@@ -12,7 +12,7 @@ export class KhachHangService {
     private khachHangRepository: Repository<KhachHang>,
   ) {}
 
-  getKhachHangRepo(maKhachHang: string) {
+  async getKhachHangRepo(maKhachHang: string) {
     return this.khachHangRepository.findOneBy({ maKhachHang });
   }
 

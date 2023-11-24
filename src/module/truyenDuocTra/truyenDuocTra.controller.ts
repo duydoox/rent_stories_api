@@ -1,14 +1,24 @@
-import { Body, Controller, Post, Get, Param } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Query } from '@nestjs/common';
 import { TruyenDuocTraService } from './truyenDuocTra.service';
-import { ThemTruyenDuocTraDTO } from './dto';
+import { ChiTietThongKeDto, GetThongKeDTO, ThemTruyenDuocTraDTO } from './dto';
 
-@Controller('khachHang')
+@Controller('truyenDuocTra')
 export class TruyenDuocTraController {
   constructor(private truyenDuocTraService: TruyenDuocTraService) {}
 
   @Get()
   layTatCaTruyenDuocTra() {
     return this.truyenDuocTraService.getTatCaTruyenDuocTra();
+  }
+
+  @Get('/chiTietThongKe')
+  getChiTietThongKe(@Query() dto: ChiTietThongKeDto) {
+    return this.truyenDuocTraService.getChiTietThongKe(dto);
+  }
+
+  @Get('/thongKe')
+  getThongKe(@Query() dto: GetThongKeDTO) {
+    return this.truyenDuocTraService.getThongKe(dto);
   }
 
   @Get('/:maTruyenDuocTra')
